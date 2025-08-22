@@ -1,0 +1,128 @@
+# ========================================
+# TEMPLATE .GITIGNORE POUR PROJETS PYTHON
+# ========================================
+
+# ---- PYTHON CORE ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ---- ENVIRONNEMENTS VIRTUELS ----
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# ---- DISTRIBUTION / PACKAGING ----
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ---- PYINSTALLER ----
+*.manifest
+*.spec
+
+# ---- JUPYTER NOTEBOOK ----
+.ipynb_checkpoints
+
+# ---- PYTEST ----
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ---- DJANGO ----
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# ---- FLASK ----
+instance/
+.webassets-cache
+
+# ---- SCRAPY ----
+.scrapy
+
+# ---- SPHINX ----
+docs/_build/
+
+# ---- PYCHARM ----
+.idea/
+
+# ---- VS CODE ----
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ---- SYSTÈME MACOS ----
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# ---- SYSTÈME WINDOWS ----
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---- SYSTÈME LINUX ----
+*~
+
+# ---- VARIABLES D'ENVIRONNEMENT ----
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ---- BASES DE DONNÉES ----
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- LOGS ----
+*.log
+logs/
+
+# ---- TEMPORAIRES ----
+*.tmp
+*.temp
+.cache/
+
+# ---- NODE.JS (si tu fais du web) ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- REACT/NEXT.JS ----
+.next/
+out/
+
+# ---- ARCHIVES ----
+*.zip
+*.tar.gz
+*.rar
+
+# ---- SECRETS/CLÉS ----
+*.pem
+*.key
+config.ini
+secrets.json
