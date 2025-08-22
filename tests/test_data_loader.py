@@ -11,16 +11,19 @@ def test_load_movies_success():
     loader = DataLoader()
     films = loader.load_movies()
 
-    assert len(films) > 0  
+    assert len(films) > 0 
     assert loader.is_loaded == True
     assert all(isinstance(film, HorrorMovie) for film in films)
+    
 
 
 def test_load_specific_movie():
     loader = DataLoader()
+    
     films = loader.load_movies()
+  
 
-    misery = next((f for f in films if f.titre == "misery"), None)
+    misery = next((f for f in films if f.titre == 'misery'), None)
     assert misery is not None
     assert misery.annee == 1990
     assert misery.note_sur_10 == 10
@@ -41,7 +44,7 @@ def test_get_by_titre():
     """ Test de recherche par le titre """
     loader = DataLoader()
     
-    titre_film = loader.get_movie_by_titre( "misery")  
+    titre_film = loader.get_movie_by_titre( "Misery")  
     titre_false_film = loader.get_movie_by_titre('Erreur')
 
     assert len(titre_film) > 0  
