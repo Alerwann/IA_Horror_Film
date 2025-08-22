@@ -57,3 +57,5 @@ def test_creation_film_espaces():
     assert film.titre == "Shining"  # Espaces supprimés
     assert film.realisateur == "Stanley Kubrick"  # Espaces supprimés
     assert film.sous_genre == "Psychologique"  # Espaces supprimés
+
+  
