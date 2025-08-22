@@ -218,7 +218,6 @@ class DataLoader:
 if __name__ == "__main__":
     loader = DataLoader()
 
-    movie_note = loader.get_movie_by_note(9, 10)
-    print(f"{len(movie_note)}")
+
     movie_year = loader.get_movie_by_years_range(2005, 200)
     print(f"{len(movie_year)}")
