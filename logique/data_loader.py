@@ -190,7 +190,7 @@ class DataLoader:
 
         return films
 
-    def get_movie_by_note(self, note_min, note_max):
+    def get_movie_by_note_range(self, note_min, note_max):
         """
         Fonction qui permet de retourner l'ensembles des films aynt un interval de note ou une note précise
         Fait appel à get_movie() pour obtenir les résultats
