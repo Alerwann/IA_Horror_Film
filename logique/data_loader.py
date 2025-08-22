@@ -8,6 +8,7 @@ from typing import List, Optional
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config.settings import CSV_PATH, COLONNES
 from logique.horror_movie import HorrorMovie
+from logique.utils import verif_var_int, verif_order_int, str_strip_lower
 
 
 class DataLoader:
@@ -53,9 +54,11 @@ class DataLoader:
 
         return self.movies
 
+    # === Gestion des paramètre qui ont besoin d'un retour précis ===
+
     def get_movie(self, search_type, search):
         """
-        Parcours la liste de movies pour trouver l'ensemble des films selon les paramètres demandé
+        Parcours la liste de movies qu'il aura chargé pour trouver l'ensemble des films selon les paramètres demandé
 
         Args:
             - search_type(str) : Nom de l'attribut qui est sujet de la recherche
@@ -69,40 +72,21 @@ class DataLoader:
         """
         if not self.is_loaded:
             self.load_movies()
-        
+
         search_movies = []
 
         for film in self.movies:
             if getattr(film, search_type) == search:
                 search_movies.append(film)
-                print(film.titre)
+
         return search_movies
-
-    def get_movie_by_note(self, note):
-        """
-        Fonction qui permet de retourner l'ensembles des films ayant une note précise
-        Fait appel à get_movie() pour obtenir les résultats
-
-        Args:
-            note (int or str) : Les films sont notés de 0 à 10
-
-        Return:
-            [obj, ... obj] -> tableau d'objet HorrorMovie
-
-        Note :
-            - retourne un tableau vide si aucun film
-            - si l'argument n'est pas un entier, retourne 'la note doit être un nombre valide"
-        """
-        try:
-            notes = int(note)
-        except (ValueError, TypeError):
-            raise ValueError("La note doit être un nombre valide")
-        return self.get_movie("note_sur_10", notes)
 
     def get_movie_by_realisateur(self, real):
         """
         Parcours l'ensemble des films chargé pour retourné ceux qui ont été réalisé par un réalisateur donné
         Fait appel à get_movie() pour obtenir les résultats
+        Fait appel a str_strip_lower pour que la donnée soit vérifiée, les espaces de début et fin supprimés, mis en minuscule
+
 
         Args:
             real(str) : Le nom du realisateur donné est modifié pour supprimer les espaces de début et fin
@@ -112,13 +96,14 @@ class DataLoader:
 
         Note : retourne un tableau vide si aucun film avec ce réalisateur
         """
-        realisateurs = real.strip().lower()
+        realisateurs = str_strip_lower(real)
         return self.get_movie("realisateur", realisateurs)
 
     def get_movie_by_sous_genre(self, sous_genre):
         """
         Parcours l'ensemble des films chargé pour retourné ceux qui ont un sous-genre donné
         Fait appel à get_movie() pour obtenir les résultats
+        Fait appel a str_strip_lower pour que la donnée soit vérifiée, les espaces de début et fin supprimés, mis en minuscule
 
         Args:
             sous_genre(str) : Le sous-genre est modifié pour supprimer les espaces de début et fin
@@ -128,13 +113,14 @@ class DataLoader:
 
         Note : retourne un tableau vide si aucun film trouvé
         """
-        sousgenre = sous_genre.strip().lower()
+        sousgenre = str_strip_lower(sous_genre)
         return self.get_movie("sous_genre", sousgenre)
 
     def get_movie_by_titre(self, titre):
         """
         Parcours l'ensemble des films chargé pour retourné ceux qui ont un titre donné
         Fait appel à get_movie() pour obtenir les résultats
+        Fait appel a str_strip_lower pour que la donnée soit vérifiée, les espaces de début et fin supprimés, mis en minuscule
 
         Args:
             titre(str) : Le sous-genre est modifié pour supprimer les espaces de début et fin
@@ -146,34 +132,93 @@ class DataLoader:
             - retourne un tableau vide si aucun film trouvé
             - peut permettre de vérifier si doublons d'insertion
         """
-        titres = titre.strip().lower()
+        titres = str_strip_lower(titre)
         return self.get_movie("titre", titres)
 
-    def get_movie_by_years(self, annee):
+    # === Gestion des parametètres qui peuvent avoir un interval ===
+
+    def get_movie_range(self, search_type, var_min, var_max):
         """
-        Parcours l'ensemble des films chargé pour retourné ceux qui sont sortie une année précise
-        Fait appel à get_movie() pour obtenir les résultats
+        Parcours la liste de movies qu'il aura chargé pour trouver l'ensemble des films selon un interval de paramètres demandé
 
         Args:
-            annee(str or int) : Une vérification de convertion en int est réalisé pour valider la donnée
+            - search_type(str) : Nom de l'attribut qui est sujet de la recherche
+            - var_min(int): Valeur minimal de l'interval
+            - var_max(int): Valeur maximal de l'interval
 
-        Retur:
+        Return:
             [obj, ... obj] -> tableau d'objet HorrorMovie
 
-        Note : retourne un tableau vide si aucun film trouvé
+        Note :
+                - retourne un tableau vide si aucun film
+
         """
-        try:
-            annees = int(annee)
-        except (ValueError, TypeError):
-            raise ValueError("L'année doit être un nombre valide")
-        return self.get_movie("annee", annees)
+        if not self.is_loaded:
+            self.load_movies()
+
+        search_movies = []
+
+        for film in self.movies:
+            film_value = getattr(film, search_type)
+            if film_value is not None and var_min <= film_value <= var_max:
+                search_movies.append(film)
+        return search_movies
+
+    def get_movie_by_years_range(self, annee_min, annee_max):
+        """
+        Parcours l'ensemble des films chargé pour retourné ceux qui sont sortie sur une période ou une année précise
+        Fait appel à get_movie() pour obtenir les résultats
+        Fait appel à verif_var_int() pour vérifié que la donnée peut être traduit en int
+
+        Args:
+            annee_min(int or str), annee_max(int,str): annee donnée par utilisateur pour la plage de recherche.
+            si besoin d'une valeur précise : faire la recherche avec la même valeur pour les 2 args
+
+        Retur:
+            [obj, ... obj] -> list d'objet HorrorMovie
+
+        Note : retourne une liste vide si aucun film trouvé
+        """
+        annee_min = verif_var_int(annee_min)
+        annee_max = verif_var_int(annee_max)
+
+        films = []
+
+        annee_min, annee_max = verif_order_int(annee_min, annee_max)
+
+        films = self.get_movie_range("annee", annee_min, annee_max)
+
+        return films
+
+    def get_movie_by_note(self, note_min, note_max):
+        """
+        Fonction qui permet de retourner l'ensembles des films aynt un interval de note ou une note précise
+        Fait appel à get_movie() pour obtenir les résultats
+        Fait appel à verif_var_int() pour vérifié que la donnée peut être traduit en int
+
+        Args:
+            note_min(int or str), note_max(int,str): note donnée par utilisateur pour la plage de recherche.
+            si besoin d'une valeur précise : faire la recherche avec la même valeur pour les 2 args
+
+        Return:
+            [obj, ... obj] -> tableau d'objet HorrorMovie
+
+        Note :
+            - retourne un tableau vide si aucun film
+            - si l'argument n'est pas un entier, retourne 'la note doit être un nombre valide"
+        """
+        note_min = verif_var_int(note_min)
+        note_max = verif_var_int(note_max)
+        note_min, note_max = verif_order_int(note_min, note_max)
+        films = self.get_movie_range("note_sur_10", note_min, note_max)
+
+        return films
 
 
 if __name__ == "__main__":
     loader = DataLoader()
-    loader.load_movies()
 
-    print(f"Chargé {len(loader.movies)} films")
-    # loader.get_movie_by_note('7')
-    # loader.get_movie_by_years(2018)
-    loader.get_movie_by_titre("la main")
+    movie_note = loader.get_movie_by_note(9, 10)
+    print(f"{len(movie_note)}")
+    movie_year = loader.get_movie_by_years_range(2005, 200)
+    print(f"{len(movie_year)}")
