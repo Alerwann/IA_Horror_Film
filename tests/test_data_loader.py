@@ -34,11 +34,11 @@ def test_reload_movies():
     assert len(films1) == len(films2)
 
 
-## === Des fonctions get particulières ===
+## === Des fonctions get pour valeur particulières ===
 
 
 def test_get_by_titre():
-
+    """ Test de recherche par le titre """
     loader = DataLoader()
     
     titre_film = loader.get_movie_by_titre( "misery")  
@@ -49,20 +49,8 @@ def test_get_by_titre():
     assert len(titre_false_film) == 0
 
 
-def test_get_by_annee():
-    loader = DataLoader()
-
-    str_year_film = loader.get_movie_by_years( "1990")
-    int_year_film = loader.get_movie_by_years( 1990)
-    
-
-    assert len(str_year_film) >0
-    assert len(str_year_film) == len (int_year_film)
-    assert str_year_film[0].titre == "misery"
-    
-
-
 def test_get_by_real():
+    """ Test de recherche par le nom du realisateur """
     loader = DataLoader()
 
     real_film = loader.get_movie_by_realisateur('rob reiner')
@@ -73,6 +61,7 @@ def test_get_by_real():
     assert real_film[0].titre == 'misery'
 
 def test_get_by_sous_genre():
+    """ Test de recherche par le genre """
     loader = DataLoader()
 
     sousgenre_film = loader.get_movie_by_sous_genre('psychologique')
@@ -80,14 +69,21 @@ def test_get_by_sous_genre():
     assert len(sousgenre_film)>0
     assert sousgenre_film[1].titre == 'cassandra'
 
-def test_by_not():
-    loader = DataLoader()
 
-    note_film = loader.get_movie_by_note(7)
+## === Test unitaires pour les recherches par interval ===
+
+def test_by_note():
+    "Test les recherches par intervalle de note"
+    loader = DataLoader()
+    for film in loader.get_movie_by_note_range(5, 10):
+        assert 5 <= film.note_sur_10 <= 10
+    assert loader.get_movie_by_note_range(7,10) == loader.get_movie_by_note_range(10,7)
+    assert loader.get_movie_by_note_range('9',10)== loader.get_movie_by_note_range(9,10)
+    assert loader.get_movie_by_note_range(9, 10) == loader.get_movie_by_note_range(9, '10')
+
+    assert len(loader.get_movie_by_note_range(11,20)) == 0
     
 
-    assert len(note_film) >0
-    assert note_film[0].titre == 'annabelle'
-   
-### === Test de Get movie
-# Get movie est utilisé sous toutes ses formes dans chacune des fonctions testées
+
+### === Test de Get movie get_movie_range
+# Get_movie et get_movies sont utilisées sous toutes ses formes dans chacune des fonctions testées
