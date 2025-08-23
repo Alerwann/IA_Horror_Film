@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from logique.horror_movie import HorrorMovie
 from logique.data_loader import DataLoader
 
-# ==== Tests de chargement du fichier ====
+# ==== TEST INITIALISATION====
 def test_load_movies_success():
     loader = DataLoader()
     films = loader.load_movies()
@@ -35,8 +35,38 @@ def test_reload_movies():
 
     assert len(films1) == len(films2)
 
+## === TEST SEARCH METHODS - GLOBAL PARAMETER ===
 
-## === Des fonctions get pour valeur particulières ===
+
+def test_get_all_realisateurs():
+    loader = DataLoader()
+    realisateurs = loader.get_all_realisateurs()
+
+    assert len(realisateurs) > 0
+    assert len(realisateurs) == len(set(realisateurs))  
+    assert "rob reiner" in realisateurs  
+    assert None not in realisateurs  
+
+
+@pytest.mark.parametrize(
+    "search,expected_value",
+    [
+        ("realisateur", "rob reiner"),
+        ("annee", 1990),
+        ("sous_genre", "psychologique"),
+        ("note_sur_10", 10),
+    ],
+)
+def test_get_all_function(search,expected_value):
+    loader = DataLoader()
+    informations = loader.get_all_informations(search)
+    assert len(informations) > 0
+    assert len(informations) == len(set(informations))
+    assert expected_value in informations
+    assert None not in informations
+
+
+## === TESTS SERCH METHODS - SINGLE PARAMETER ===
 
 
 def test_get_by_titre():
@@ -72,7 +102,7 @@ def test_get_by_sous_genre():
     assert sousgenre_film[1].titre == 'cassandra'
 
 
-## === Test unitaires pour les recherches par interval ===
+## === TEST SEARCH METHODS - MULTI PARAMETERS ===
 
 def test_by_note():
     "Test les recherches par intervalle de note"
