@@ -1,6 +1,7 @@
 import os
 import sys
 from .data_loader import DataLoader
+from .utils import calculate_proportion_in_percent
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -26,7 +27,7 @@ class HorrorAnalyser:
 
     def get_total_note(self):
         if self._total_note is None :
-           self._total_note = self.get_total_information_about('note_sur_10')
+            self._total_note = self.get_total_information_about('note_sur_10')
         return self._total_note
 
     def get_total_realisateur(self):
@@ -44,51 +45,48 @@ class HorrorAnalyser:
             self._total_annee = self.get_total_information_about('annee')
         return self._total_annee
 
+    # === CALCUL METHODE - SINGLE PARAMETER  ===
 
+    def proportion_one_real(self,realisateur):
 
+        nb_for_realisateur = len(self.data_loader.get_movie_by_realisateur(realisateur))
         
+        total_realisateur = self.get_total_realisateur()
+            
+        proportion = calculate_proportion_in_percent(nb_for_realisateur, total_realisateur)
+        return proportion
 
+   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def stat_by_real(self, realisateur):
-        """ 
-        calcule le nombre de film d'un realisateur dans la liste
-        """
-
-    def stat_by_date(self, date=[int,int]):
-        """
-        calcule le nombre de film a une date donnée
+    def proportion_one_sous_genre(self, sous_genre):
+        nb_for_sousgenre = len(self.data_loader.get_movie_by_sous_genre(sous_genre))
         
-        note: pour ameliorer faire une recherche par periode dans data loader
-        """
-
-    def stat_by_note(self, note=[int, int]):
-        """
-        calcule le nombre de film qui ont une note donnée
+        total_sous_genre = self.get_total_sous_genre()
+            
+        proportion = calculate_proportion_in_percent(nb_for_sousgenre, total_sous_genre)
         
-        note : ajouter une recherche par interval dans note pour collé avec les seuils de note du settings
-        """
+        return proportion
 
-    def stat_by_genre(self, sous_genre):
-        """
-        Calcul le nombre de film qui ont un certain sous-genre
-        """
+    # === CALCUL METHODE - INTERVAL PARAMETER ===
 
-    def calcul_stat(self, nb_film_spé):
-        """ calcul du rapport de film spécifique sur la totalité"""
+    def proportion_annee_range(self, annee_min,annee_max):
+        nb_for_years = len(self.data_loader.get_movie_by_years_range(annee_min,annee_max))
 
-    def response_stat(self):
-        """Renvoie un compte rendu des réponse soit global soit précis"""
+        total_annee = self.get_total_annee()
+      
+        proportion = calculate_proportion_in_percent(nb_for_years, total_annee)
+        return proportion
+
+
+
+    def proportion_note_range(self,note_min, note_max):
+            nb_for_note = len(self.data_loader.get_movie_by_note_range(note_min, note_max))
+            
+            total_note = self.get_total_note()
+                
+            proportion = calculate_proportion_in_percent(nb_for_note, total_note)
+            return proportion
+
+
+
+
