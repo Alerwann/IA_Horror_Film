@@ -1,4 +1,3 @@
-
 def verif_var_int(var):
     """ Vérifie si un str peut être converti en int ou si c'est bien un int"""
     try:
@@ -21,3 +20,18 @@ def str_strip_lower(var):
     except AttributeError:
         raise ValueError("La variable doit être du type str")
     return var_return
+
+    # === Calculs de stats ===
+
+
+def calculate_proportion_in_percent(valeur_precis, valeur_totale):
+    """Calcule la proportion en pourcentage"""
+    valeur_precis = verif_var_int(valeur_precis)
+    valeur_totale = verif_var_int(valeur_totale)
+
+    if valeur_totale == 0:
+        return 0  
+
+    pourcent=  (valeur_precis / valeur_totale) * 100
+
+    return round(pourcent,2)
