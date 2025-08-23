@@ -14,7 +14,6 @@ def test_load_movies_success():
     assert len(films) > 0 
     assert loader.is_loaded == True
     assert all(isinstance(film, HorrorMovie) for film in films)
-    
 
 
 def test_load_specific_movie():
@@ -78,14 +77,30 @@ def test_get_by_sous_genre():
 def test_by_note():
     "Test les recherches par intervalle de note"
     loader = DataLoader()
+
     for film in loader.get_movie_by_note_range(5, 10):
         assert 5 <= film.note_sur_10 <= 10
+        
     assert loader.get_movie_by_note_range(7,10) == loader.get_movie_by_note_range(10,7)
     assert loader.get_movie_by_note_range('9',10)== loader.get_movie_by_note_range(9,10)
     assert loader.get_movie_by_note_range(9, 10) == loader.get_movie_by_note_range(9, '10')
 
     assert len(loader.get_movie_by_note_range(11,20)) == 0
-    
+    assert len(loader.get_movie_by_note_range(-45,-2)) == 0
+
+def test_by_annee():
+    "test de recherche sur une période donnée"
+    loader = DataLoader()
+
+    for film in loader.get_movie_by_years_range(1998,2005):
+        assert 1998 <= film.annee <= 2005
+
+    assert loader.get_movie_by_years_range(2005, 2010) == loader.get_movie_by_years_range(2010,2005)
+    assert loader.get_movie_by_years_range("2009", 2010) == loader.get_movie_by_years_range(2009, 2010)
+    assert loader.get_movie_by_years_range(2009, 2010) == loader.get_movie_by_years_range(2009, "2010" )
+
+    assert len(loader.get_movie_by_years_range(3000,3001)) == 0
+    assert len(loader.get_movie_by_years_range(50, 100)) == 0
 
 
 ### === Test de Get movie get_movie_range
