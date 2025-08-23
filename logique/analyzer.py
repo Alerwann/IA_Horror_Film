@@ -17,9 +17,9 @@ class HorrorAnalyser:
         self._total_note = None
 
     def get_total_movies(self):
-        if self._total_movies is None:
-            self._total_movies = len(self.data_loader.load_movies())
-        return self._total_movies
+        if self._total_movie is None:
+            self._total_movie = len(self.data_loader.load_movies())
+        return self._total_movie
 
     def get_total_information_about(self,theme):
         informations = len(self.data_loader.get_all_informations(theme) )
@@ -50,21 +50,19 @@ class HorrorAnalyser:
     def proportion_one_real(self,realisateur):
 
         nb_for_realisateur = len(self.data_loader.get_movie_by_realisateur(realisateur))
-        
+
         total_realisateur = self.get_total_realisateur()
-            
+
         proportion = calculate_proportion_in_percent(nb_for_realisateur, total_realisateur)
         return proportion
 
-   
-
     def proportion_one_sous_genre(self, sous_genre):
         nb_for_sousgenre = len(self.data_loader.get_movie_by_sous_genre(sous_genre))
-        
+
         total_sous_genre = self.get_total_sous_genre()
-            
+
         proportion = calculate_proportion_in_percent(nb_for_sousgenre, total_sous_genre)
-        
+
         return proportion
 
     # === CALCUL METHODE - INTERVAL PARAMETER ===
@@ -72,21 +70,15 @@ class HorrorAnalyser:
     def proportion_annee_range(self, annee_min,annee_max):
         nb_for_years = len(self.data_loader.get_movie_by_years_range(annee_min,annee_max))
 
-        total_annee = self.get_total_annee()
-      
-        proportion = calculate_proportion_in_percent(nb_for_years, total_annee)
+        total_movies = self.get_total_movies()
+
+        proportion = calculate_proportion_in_percent(nb_for_years, total_movies)
         return proportion
 
-
-
     def proportion_note_range(self,note_min, note_max):
-            nb_for_note = len(self.data_loader.get_movie_by_note_range(note_min, note_max))
-            
-            total_note = self.get_total_note()
-                
-            proportion = calculate_proportion_in_percent(nb_for_note, total_note)
-            return proportion
+        nb_for_note = len(self.data_loader.get_movie_by_note_range(note_min, note_max))
 
+        total_movies = self.get_total_movies()
 
-
-
+        proportion = calculate_proportion_in_percent(nb_for_note, total_movies)
+        return proportion
