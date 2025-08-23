@@ -11,7 +11,7 @@ class HorrorMovie:
                 si il ne peut être converti en int renvoie None
                 Testé avec try/except
         """
-        self.titre = titre.strip() if titre and titre.strip() else None
+        self.titre = titre.strip().lower() if titre and titre.strip().lower() else None
 
         try:
             self.annee = int(annee)
@@ -19,11 +19,11 @@ class HorrorMovie:
             self.annee = None
 
         self.realisateur = (
-            realisateur.strip() if realisateur and realisateur.strip() else None
+            realisateur.strip().lower() if realisateur and realisateur.strip().lower() else None
         )
 
         self.sous_genre = (
-            sous_genre.strip() if sous_genre and sous_genre.strip() else None
+            sous_genre.strip().lower() if sous_genre and sous_genre.strip().lower() else None
         )
 
         try:

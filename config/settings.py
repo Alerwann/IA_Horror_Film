@@ -1,5 +1,5 @@
 # === CHEMIN DES FICHIERS ET DOSSIERS ===
-CSV_PATH = "../data/My_horror_film.csv"
+CSV_PATH = "data/My_horror_film.csv"
 
 # === SEUIL DES NOTES ===
 NAUVAIS = 0
@@ -10,7 +10,7 @@ EXCELLENT = 9
 
 # === COLONNES ATTENDUES ===
 
-COLONNES = {"Titre", "ANNÉE", "Réalisateur", "Sous_genre", "note sur 10"}
+COLONNES = {"Titre", "Année", "Réalisateur", "Sous_genre", "Note sur 10"}
 
 # === POIDS D'IMPORTANCE ===
 

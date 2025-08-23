@@ -126,3 +126,6 @@ out/
 *.key
 config.ini
 secrets.json
+
+# --- fichier aide perso ---
+list_check.txt
