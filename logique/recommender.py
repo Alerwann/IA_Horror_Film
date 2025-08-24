@@ -1,5 +1,6 @@
 import sys
 import os
+import requests
 
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -24,13 +25,13 @@ class HorrorRecommender:
         if self._best_sous_genre == []:
             for sous_genre in self.analyzer.data_loader.get_all_sous_genre():
                 proportion = self.analyzer.proportion_one_sous_genre(sous_genre)
-                
+
                 if proportion > best_stat:
                     best_sous_genre=[(sous_genre,proportion)]
                     best_stat = proportion
                 elif proportion == best_stat:
                     best_sous_genre.append((sous_genre, proportion))
-                
+
         self._best_sous_genre = self.get_the_best_sous_genre(best_sous_genre)
         return self._best_sous_genre
 
@@ -128,17 +129,14 @@ class HorrorRecommender:
                     sum_rating+=film.note_sur_10
 
                 moyenne_rating = round(sum_rating/ len(collection_film),4)
-                
+
                 if moyenne_rating >= best_moyenne_rating:
                     self._best_sous_genre .append(best_sousgenre[i])
                     best_moyenne_rating = moyenne_rating
         return self._best_sous_genre
 
     # ==== CREATION DU PROFIL ===
-   
 
-        
-        
     def creat_user_profil(self):
         """"""
         periode= self.analyze_best_periode()[0]
@@ -146,17 +144,50 @@ class HorrorRecommender:
         realisateur = self.analyze_best_realisateur()[0][0]
         genre = GENRE_MAPPING[self.analyze_best_sous_genre()[0][0]]
 
-        print("start = ",start)
-        print("end = ", end)
-        print("realisateur =",realisateur)
-        print('genre = ', genre)
-        
-        
+        return {
+            "start_year": start,
+            "end_year": end,
+            "director": realisateur,
+            "genres": genre,
+            "min_rating":7,
+            "certification_country": "FR",
+            "certification.lte": 18
+            
+            }
+
+    def build_tmdb_query(self):
+        profile = self.creat_user_profil()
+
+        params = {
+            "api_key": "TON_API_KEY",
+            "with_genres": profile["genres"],
+            "primary_release_date.gte": f"{profile['start_year']}-01-01",
+            "primary_release_date.lte": f"{profile['end_year']}-12-31", 
+            "vote_average.gte": profile["min_rating"],
+            "certification_country": profile["certification_country"],
+            "certification.lte": profile["certification.lte"],
+            "sort_by": "vote_average.desc"
+        }
+
+        return params
+
+    def get_recommendations(self):
+        """Fait l'appel TMDB et retourne les films recommandés"""
+        params = self.build_tmdb_query()
+
+        # Remplace "TON_API_KEY" par ta vraie clé
+        params["api_key"] = "a74566ad66c9baf3f6ea3685196a13ff"
+
+        response = requests.get("https://api.themoviedb.org/3/discover/movie", params=params
+        )
+
+        if response.status_code == 200:
+            return response.json()["results"]
+        else:
+            print(f"Erreur API: {response.status_code}")
+            return []
 
 
-
-
-    
 if __name__ == "__main__":
     recommender = HorrorRecommender()
     print(recommender.analyze_best_sous_genre(), 'sous-genre')
