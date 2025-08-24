@@ -139,26 +139,62 @@ class HorrorRecommender:
 
     # ==== CREATION DU PROFIL ===
 
-    def creat_user_profil(self):
+    def creat_user_profil_default(self):
+
         """"""
+        start= None
+        end= None
+        realisateur =None
+        genre = None
+
         periode= self.analyze_best_periode()[0]
         start,end = HORROR_ERAS[periode[0]]
         realisateur = self.analyze_best_realisateur()[0][0]
         genre = GENRE_MAPPING[self.analyze_best_sous_genre()[0][0]]
 
         return {
-            "start_year": start,
-            "end_year": end,
-            "director": realisateur,
-            "genres": genre,
-            "min_rating":7,
-            "certification_country": "US",
-            "certification": "R"
-            
-            }
+                "start_year": start,
+                "end_year": end,
+                "director": realisateur,
+                "genres": genre,
+                "min_rating":7,
+                "certification_country": "US",
+                "certification": "R"
+                }
 
-    def build_tmdb_query(self):
-        profile = self.creat_user_profil()
+
+
+    def creat_user_profil_particulier(self, rating_wish, periode_wish,sous_genre_wish ):
+
+        """"""
+        
+        start,end = HORROR_ERAS[periode_wish[0]]
+        realisateur = self.analyze_best_realisateur()[0][0]
+        genre = GENRE_MAPPING[sous_genre_wish[0][0]]
+
+        return {
+                "start_year": start,
+                "end_year": end,
+                "director": realisateur,
+                "genres": genre,
+                "min_rating":rating_wish,
+                "certification_country": "US",
+                "certification": "R"
+                }
+
+
+
+
+
+    def build_tmdb_query(self,type_profil = 'default',rating_wish=None, periode_wish=None,sous_genre_wish =None):
+        
+ 
+            
+        if type_profil == "particulier": 
+            profile = self.creat_user_profil_particulier(rating_wish,periode_wish,sous_genre_wish)
+        else : 
+            profile = self.creat_user_profil_default()
+
 
         params = {
             "api_key": "TON_API_KEY",
