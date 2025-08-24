@@ -24,7 +24,7 @@ class HorrorRecommender:
         if self._best_sous_genre == []:
             for sous_genre in self.analyzer.data_loader.get_all_sous_genre():
                 proportion = self.analyzer.proportion_one_sous_genre(sous_genre)
-                print(proportion, 'proportion pour sousgenre', sous_genre)
+                
                 if proportion > best_stat:
                     best_sous_genre=[(sous_genre,proportion)]
                     best_stat = proportion
@@ -78,7 +78,7 @@ class HorrorRecommender:
             self._best_periode=best_periode
         if len(best_periode)>0:
 
-            for i in [0, len(best_periode)-1]:
+            for i in range(len(best_periode)):
                 best_moyenne_rating =0
                 start, end = HORROR_ERAS[best_periode[i][0]]
                 sum_rating = 0
@@ -99,7 +99,7 @@ class HorrorRecommender:
             self._best_realisateur = best_real
         elif length_tab>1:
             best_moyenne_rating =0     
-            for i in [0,length_tab-1]:
+            for i in range(length_tab):
                 sum_rating = 0
 
                 for film in self.analyzer.data_loader.get_movie_by_realisateur(best_real[i][0]):
@@ -116,12 +116,11 @@ class HorrorRecommender:
     def get_the_best_sous_genre(self, best_sousgenre):
         """"""
         length_list = len(best_sousgenre)
-        print (length_list)
         if length_list == 1:
             self._best_sous_genre = best_sousgenre
-        if length_list>0:
+        if length_list>1:
             best_moyenne_rating = 0
-            for i in [0,length_list-1]:
+            for i in range(len(best_sousgenre)):
                 sum_rating=0
                 collection_film = self.analyzer.data_loader.get_movie_by_sous_genre(best_sousgenre[i][0])
 
@@ -129,11 +128,26 @@ class HorrorRecommender:
                     sum_rating+=film.note_sur_10
 
                 moyenne_rating = round(sum_rating/ len(collection_film),4)
+                
                 if moyenne_rating >= best_moyenne_rating:
                     self._best_sous_genre .append(best_sousgenre[i])
                     best_moyenne_rating = moyenne_rating
         return self._best_sous_genre
 
+    # ==== CREATION DU PROFIL ===
+
+    def creat_user_profil(self):
+        """"""
+        periode= self.analyze_best_periode()
+        start,end = HORROR_ERAS[periode[0][0]]
+        realisateur = self.analyze_best_realisateur()
+        
+        
+
+
+
+
+    
 if __name__ == "__main__":
     recommender = HorrorRecommender()
     print(recommender.analyze_best_sous_genre(), 'sous-genre')
