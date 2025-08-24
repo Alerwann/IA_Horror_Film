@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from logique.analyzer import HorrorAnalyser
-from config.settings import NOTE_ERAS, HORROR_ERAS
+from config.settings import  HORROR_ERAS, GENRE_MAPPING
 
 
 class HorrorRecommender:
@@ -135,12 +135,21 @@ class HorrorRecommender:
         return self._best_sous_genre
 
     # ==== CREATION DU PROFIL ===
+   
 
+        
+        
     def creat_user_profil(self):
         """"""
-        periode= self.analyze_best_periode()
-        start,end = HORROR_ERAS[periode[0][0]]
-        realisateur = self.analyze_best_realisateur()
+        periode= self.analyze_best_periode()[0]
+        start,end = HORROR_ERAS[periode[0]]
+        realisateur = self.analyze_best_realisateur()[0][0]
+        genre = GENRE_MAPPING[self.analyze_best_sous_genre()[0][0]]
+
+        print("start = ",start)
+        print("end = ", end)
+        print("realisateur =",realisateur)
+        print('genre = ', genre)
         
         
 
@@ -153,3 +162,5 @@ if __name__ == "__main__":
     print(recommender.analyze_best_sous_genre(), 'sous-genre')
     print(recommender.analyze_best_realisateur(),'realisateur')
     print (recommender.analyze_best_periode(),'periode')
+
+    recommender.creat_user_profil()
