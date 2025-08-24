@@ -11,11 +11,14 @@ from PySide6.QtWidgets import (
     QPushButton,
     QTextEdit,
     QGroupBox,
+    QComboBox,
 )
 from PySide6.QtCore import Qt
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from logique.recommender import HorrorRecommender
 from config.dev_gui_settings import RECO_DATA_DEV, RECO_DATA_PROD
+from config.settings import  HORROR_ERAS, GENRE_MAPPING
 
 
 class HorrorApp(QMainWindow):
@@ -39,8 +42,11 @@ class HorrorApp(QMainWindow):
         profile_section = self.create_profile_section()
         layout.addWidget(profile_section)
 
-        reco_section =self.create_recommendation_section()
+        reco_section = self.create_recommendation_section()
         layout.addWidget(reco_section)
+
+        choice_section = self.create_choice_section()
+        layout.addWidget(choice_section)
 
     # === Gestion de la section profil ======
 
@@ -59,7 +65,7 @@ class HorrorApp(QMainWindow):
 
         # Ajouter au layout
         profile_layout.addWidget(genre_label)
-        profile_layout.addWidget(periode_label) 
+        profile_layout.addWidget(periode_label)
         profile_layout.addWidget(real_label)
 
         return profile_group
@@ -67,26 +73,26 @@ class HorrorApp(QMainWindow):
     def get_profile_data(self):
         # Utiliser ton recommender existant !
 
-        profile = self.recommender.creat_user_profil()
+        profile = self.recommender.creat_user_profil_default()
         print(profile)
 
         genre_info = self.recommender.analyze_best_sous_genre()[0]
-        periode_info = self.recommender.analyze_best_periode()[0] 
+        periode_info = self.recommender.analyze_best_periode()[0]
         real_info = self.recommender.analyze_best_realisateur()[0]
 
         return {
             "genre": f"{genre_info[0]} ({genre_info[1]:.1f}%)",
-            "periode": f"{periode_info[0]} ({periode_info[1]:.1f}%)", 
-            "realisateur": f"{real_info[0]} ({real_info[1]:.1f}%)"
+            "periode": f"{periode_info[0]} ({periode_info[1]:.1f}%)",
+            "realisateur": f"{real_info[0]} ({real_info[1]:.1f}%)",
         }
 
     def create_recommendation_section(self):
 
         reco_data = self.get_reco_data()
 
-        reco_group= QGroupBox("🎞️ Tes recommendations")
+        reco_group = QGroupBox("🎞️ Tes recommendations")
 
-        reco_layout= QVBoxLayout(reco_group)
+        reco_layout = QVBoxLayout(reco_group)
         for film in reco_data[:5]:
             titre_label = QLabel(
                 f"🎬 {film['title']} sorti en {film['release_date'][5:7]} - {film['release_date'][:4]}."
@@ -104,11 +110,44 @@ class HorrorApp(QMainWindow):
         if self._reco_data_dev is None:
             print("🌐 Appel API...")
             self._reco_data_dev = self.recommender.get_recommendations()
-            
+
         else:
-            print("💾 Utilisation cache...")    
+            print("💾 Utilisation cache...")
 
         return self._reco_data_dev
+
+    def create_choice_section(self):
+        choice_group = QGroupBox("Tu veux d'autres choix?")
+
+        # period_label =  QLabel("Periode :")
+        period_deroulant_box = QComboBox()
+
+        period_deroulant_box.addItems(
+            [
+                "Période",
+                "classique (1960-1979)",
+                "golden age (1980-1999)",
+                "moderne (2000 - 2015)",
+                "contemporain (depuis 2016)",
+            ]
+        )
+        note_deroulant_box=QComboBox()
+        note_deroulant_box.addItem('Note')
+        for note in range(11):
+            note_deroulant_box.addItem(f'{note}')
+
+        genre_deroulant_box = QComboBox()
+        genre_deroulant_box.addItem("Genre de film")
+        for genre in GENRE_MAPPING:
+            genre_deroulant_box.addItem(f"{genre}")
+
+        choice_layout = QVBoxLayout(choice_group)
+        # choice_layout.addWidget(period_label)
+        choice_layout.addWidget(note_deroulant_box)
+        choice_layout.addWidget(period_deroulant_box)
+        choice_layout.addWidget(genre_deroulant_box)
+
+        return choice_group
 
 
 if __name__ == "__main__":
