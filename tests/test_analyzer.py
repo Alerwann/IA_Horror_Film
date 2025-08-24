@@ -31,3 +31,8 @@ def test_proportion_note_range():
     # Plage vide
     prop_empty = analyzer.proportion_annee_range(0, 100)
     assert prop_empty == 0
+
+def test_proportion_sous_genre():
+    analyzer= HorrorAnalyser()
+
+    assert analyzer.proportion_one_sous_genre('psychologique') < 100
