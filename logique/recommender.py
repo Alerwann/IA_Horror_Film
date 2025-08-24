@@ -1,11 +1,13 @@
 import sys
 import os
 import requests
-
+from dotenv import load_dotenv
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from logique.analyzer import HorrorAnalyser
 from config.settings import  HORROR_ERAS, GENRE_MAPPING
+
+load_dotenv()
 
 
 class HorrorRecommender:
@@ -150,8 +152,8 @@ class HorrorRecommender:
             "director": realisateur,
             "genres": genre,
             "min_rating":7,
-            "certification_country": "FR",
-            "certification.lte": 18
+            "certification_country": "US",
+            "certification": "R"
             
             }
 
@@ -165,7 +167,7 @@ class HorrorRecommender:
             "primary_release_date.lte": f"{profile['end_year']}-12-31", 
             "vote_average.gte": profile["min_rating"],
             "certification_country": profile["certification_country"],
-            "certification.lte": profile["certification.lte"],
+            "certification": profile["certification"],
             "sort_by": "vote_average.desc"
         }
 
@@ -176,7 +178,7 @@ class HorrorRecommender:
         params = self.build_tmdb_query()
 
         # Remplace "TON_API_KEY" par ta vraie clé
-        params["api_key"] = "a74566ad66c9baf3f6ea3685196a13ff"
+        params["api_key"] = os.getenv("API_KEY")
 
         response = requests.get("https://api.themoviedb.org/3/discover/movie", params=params
         )
@@ -190,8 +192,14 @@ class HorrorRecommender:
 
 if __name__ == "__main__":
     recommender = HorrorRecommender()
-    print(recommender.analyze_best_sous_genre(), 'sous-genre')
-    print(recommender.analyze_best_realisateur(),'realisateur')
-    print (recommender.analyze_best_periode(),'periode')
 
-    recommender.creat_user_profil()
+    # Tes analyses actuelles
+    print(recommender.analyze_best_sous_genre(), "sous-genre")
+
+    # Test recommandation
+    recommendations = recommender.get_recommendations()
+    print(f"Films trouvés : {len(recommendations)}")
+    for film in recommendations[:5]:  
+        print(
+            f"- {film['title']} ({film['release_date'][:4]}) - {film['vote_average']}/10"
+        )
