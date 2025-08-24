@@ -165,10 +165,10 @@ class HorrorRecommender:
     def creat_user_profil_particulier(self, rating_wish, periode_wish,sous_genre_wish ):
 
         """"""
-
-        start,end = HORROR_ERAS[periode_wish[0]]
+        print('period wish dabs creat particulier',periode_wish)
+        start,end = HORROR_ERAS[periode_wish]
         realisateur = self.analyze_best_realisateur()[0][0]
-        genre = GENRE_MAPPING[sous_genre_wish[0][0]]
+        genre = GENRE_MAPPING[sous_genre_wish]
 
         return {
                 "start_year": start,
