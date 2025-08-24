@@ -162,12 +162,10 @@ class HorrorRecommender:
                 "certification": "R"
                 }
 
-
-
     def creat_user_profil_particulier(self, rating_wish, periode_wish,sous_genre_wish ):
 
         """"""
-        
+
         start,end = HORROR_ERAS[periode_wish[0]]
         realisateur = self.analyze_best_realisateur()[0][0]
         genre = GENRE_MAPPING[sous_genre_wish[0][0]]
@@ -182,19 +180,12 @@ class HorrorRecommender:
                 "certification": "R"
                 }
 
-
-
-
-
     def build_tmdb_query(self,type_profil = 'default',rating_wish=None, periode_wish=None,sous_genre_wish =None):
-        
- 
-            
+
         if type_profil == "particulier": 
             profile = self.creat_user_profil_particulier(rating_wish,periode_wish,sous_genre_wish)
         else : 
             profile = self.creat_user_profil_default()
-
 
         params = {
             "api_key": "TON_API_KEY",
@@ -209,9 +200,15 @@ class HorrorRecommender:
 
         return params
 
-    def get_recommendations(self):
+    def get_recommendations(
+        self,
+        type_profil="default",
+        rating_wish=None,
+        periode_wish=None,
+        sous_genre_wish=None,
+    ):
         """Fait l'appel TMDB et retourne les films recommandés"""
-        params = self.build_tmdb_query()
+        params = self.build_tmdb_query(type_profil,rating_wish, periode_wish,sous_genre_wish)
 
         # Remplace "TON_API_KEY" par ta vraie clé
         params["api_key"] = os.getenv("API_KEY")
