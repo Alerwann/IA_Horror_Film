@@ -1,9 +1,10 @@
 import os
 import sys
-from .data_loader import DataLoader
-from .utils import calculate_proportion_in_percent
+
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from logique.data_loader import DataLoader
+from logique.utils import calculate_proportion_in_percent
 
 class HorrorAnalyser:
     # ==== INITIALISATION DES DONNEES ====
@@ -51,17 +52,17 @@ class HorrorAnalyser:
 
         nb_for_realisateur = len(self.data_loader.get_movie_by_realisateur(realisateur))
 
-        total_realisateur = self.get_total_realisateur()
+        total_movies = self.get_total_movies()
 
-        proportion = calculate_proportion_in_percent(nb_for_realisateur, total_realisateur)
+        proportion = calculate_proportion_in_percent(nb_for_realisateur, total_movies)
         return proportion
 
     def proportion_one_sous_genre(self, sous_genre):
         nb_for_sousgenre = len(self.data_loader.get_movie_by_sous_genre(sous_genre))
 
-        total_sous_genre = self.get_total_sous_genre()
+        total_movies = self.get_total_movies()
 
-        proportion = calculate_proportion_in_percent(nb_for_sousgenre, total_sous_genre)
+        proportion = calculate_proportion_in_percent(nb_for_sousgenre, total_movies)
 
         return proportion
 
@@ -82,3 +83,7 @@ class HorrorAnalyser:
 
         proportion = calculate_proportion_in_percent(nb_for_note, total_movies)
         return proportion
+
+if __name__ == '__main__':
+    analyzer = HorrorAnalyser()
+    print (analyzer.get_total_sous_genre())
