@@ -20,31 +20,35 @@ class HorrorRecommender:
     def analyze_best_sous_genre(self):
         """retourne une liste des sous genre preféré"""
         best_stat =0
+        best_sous_genre= []
         if self._best_sous_genre == []:
             for sous_genre in self.analyzer.data_loader.get_all_sous_genre():
                 proportion = self.analyzer.proportion_one_sous_genre(sous_genre)
+                print(proportion, 'proportion pour sousgenre', sous_genre)
                 if proportion > best_stat:
-                    self._best_sous_genre=[(sous_genre,proportion)]
+                    best_sous_genre=[(sous_genre,proportion)]
                     best_stat = proportion
-
-                if proportion == best_stat:
-                    self._best_sous_genre.append((sous_genre, proportion))
+                elif proportion == best_stat:
+                    best_sous_genre.append((sous_genre, proportion))
+                
+        self._best_sous_genre = self.get_the_best_sous_genre(best_sous_genre)
         return self._best_sous_genre
 
     def analyze_best_realisateur(self):
         """retourne liste des meilleur realisateur"""
         best_stat = 0
+        best_realisateur=[]
         if self._best_realisateur == []:
 
             for realisateur in self.analyzer.data_loader.get_all_realisateurs():
                 proportion = self.analyzer.proportion_one_real(realisateur)
                 if proportion > best_stat:
-                    self._best_realisateur = [(realisateur, proportion)]
+                    best_realisateur = [(realisateur, proportion)]
                     best_stat = proportion
-
-                if proportion == best_stat:
-                    self._best_realisateur.append((realisateur, proportion))
-        return set(self._best_realisateur)
+                elif proportion == best_stat:
+                    best_realisateur.append((realisateur, proportion))
+            self._best_realisateur = self.get_the_best_realisateur(best_realisateur)
+        return self._best_realisateur
 
     def analyze_best_periode(self):
         """Retourne la liste des meilleur périodes"""
@@ -53,45 +57,82 @@ class HorrorRecommender:
         if self._best_periode == []:
             for era_name,(start,end)in HORROR_ERAS.items():
                 proportion = self.analyzer.proportion_annee_range(start,end)
+
                 if proportion > best_stat:
                     best_periode=[(era_name,proportion)]
-                    print( best_periode)
+                    best_stat = proportion
 
-                if proportion == best_stat:
+                elif proportion == best_stat:
                     best_periode.append((era_name,proportion))
+
         self._best_periode = self.get_the_best_periode(best_periode)
-        print(self._best_periode, "dans l'annalyse")
-           
 
         return self._best_periode
 
+    # === FUNCTION GET THE BEST ===
+    # ces fonctions choisissent si il y une égaliter lequel prendre en fonction des moyennes des notes
     def get_the_best_periode(self,best_periode):   
-        print(best_periode)             
-        if len(best_periode) == 0:
-            self._best_periode = best_periode
+
+        if len(best_periode) == 1:
+
+            self._best_periode=best_periode
         if len(best_periode)>0:
-            best_rating = 0
-            length_films=0
-            self._best_periode = best_periode[0]
-            # for i in [0,len(best_periode)-1]:
 
-            #     start, end = HORROR_ERAS[best_periode[i][0]]
+            for i in [0, len(best_periode)-1]:
+                best_moyenne_rating =0
+                start, end = HORROR_ERAS[best_periode[i][0]]
+                sum_rating = 0
 
-            #     films = self.analyzer.data_loader.get_movie_by_note_range(start,end)
-            #     length_films= len(films)
-            #     rating_= self.calculate_rating(films, length_films)
-            #     if rating_ >= best_rating:
-            #         best_rating=rating_
-            #         self._best_periode = best_periode[i]
-            # return length_films
+                for film in self.analyzer.data_loader.get_movie_by_years_range(start,end):
+                    sum_rating += film.note_sur_10
+                moyen_rating=round(sum_rating/len(self.analyzer.data_loader.get_movie_by_years_range(start,end)),4)
+
+                if moyen_rating >= best_moyenne_rating:
+                    self._best_periode = best_periode
+
         return self._best_periode
-    
-    def calculate_rating(self,films= None, length_films=1):
-        if films == None:
-            return 0
-        total = sum(film.note_sur_10 for film in films if film.note_sur_10)
-        return total / length_films
 
+    def get_the_best_realisateur(self, best_real):
+        length_tab = len(best_real) 
+
+        if length_tab==1:
+            self._best_realisateur = best_real
+        elif length_tab>1:
+            best_moyenne_rating =0     
+            for i in [0,length_tab-1]:
+                sum_rating = 0
+
+                for film in self.analyzer.data_loader.get_movie_by_realisateur(best_real[i][0]):
+                    sum_rating+= film.note_sur_10
+
+                moyenne_rating = round(sum_rating / len(self.analyzer.data_loader.get_movie_by_realisateur(best_real[i][0] )), 4)
+
+                if moyenne_rating >= best_moyenne_rating:
+                    self._best_realisateur .append(best_real[i])
+                    best_moyenne_rating=moyenne_rating
+
+        return self._best_realisateur
+
+    def get_the_best_sous_genre(self, best_sousgenre):
+        """"""
+        length_list = len(best_sousgenre)
+        print (length_list)
+        if length_list == 1:
+            self._best_sous_genre = best_sousgenre
+        if length_list>0:
+            best_moyenne_rating = 0
+            for i in [0,length_list-1]:
+                sum_rating=0
+                collection_film = self.analyzer.data_loader.get_movie_by_sous_genre(best_sousgenre[i][0])
+
+                for film in collection_film:
+                    sum_rating+=film.note_sur_10
+
+                moyenne_rating = round(sum_rating/ len(collection_film),4)
+                if moyenne_rating >= best_moyenne_rating:
+                    self._best_sous_genre .append(best_sousgenre[i])
+                    best_moyenne_rating = moyenne_rating
+        return self._best_sous_genre
 
 if __name__ == "__main__":
     recommender = HorrorRecommender()
