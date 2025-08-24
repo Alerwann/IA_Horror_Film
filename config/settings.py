@@ -20,10 +20,10 @@ HORROR_ERAS = {
 # ===GENRE MAPPING===
 
 GENRE_MAPPING = {
-    "psychologique": [27, 53, 9648],  # Horror + Thriller + Mystery
-    "surnaturel": [27, 14],  # Horror + Fantasy
-    "horror pur": [27],  # Pure Horror
-    "fantaisie": [27, 14],  # Horror + Fantasy
+    "psychologique": '27, 9648,53',  # Horror + Thriller + Mystery
+    "surnaturel": '27, 14',  # Horror + Fantasy
+    "horror pur": '27',  # Pure Horror
+    "fantaisie": '27, 53,878',  # Horror + Fantasy+ sciencefiction
 }
 
 
