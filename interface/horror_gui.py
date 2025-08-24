@@ -120,34 +120,51 @@ class HorrorApp(QMainWindow):
         choice_group = QGroupBox("Tu veux d'autres choix?")
 
         # period_label =  QLabel("Periode :")
-        period_deroulant_box = QComboBox()
+        self.period_deroulant_box = QComboBox()
+        self.note_deroulant_box= QComboBox()
+        self.genre_deroulant_box = QComboBox()
 
-        period_deroulant_box.addItems(
+        self.period_deroulant_box.addItems(
             [
                 "Période",
-                "classique (1960-1979)",
+                "classique",
                 "golden age (1980-1999)",
                 "moderne (2000 - 2015)",
                 "contemporain (depuis 2016)",
             ]
         )
-        note_deroulant_box=QComboBox()
-        note_deroulant_box.addItem('Note')
+
+        self.note_deroulant_box.addItem('Note')
         for note in range(11):
-            note_deroulant_box.addItem(f'{note}')
+            self.note_deroulant_box.addItem(f'{note}')
 
-        genre_deroulant_box = QComboBox()
-        genre_deroulant_box.addItem("Genre de film")
+        self.genre_deroulant_box.addItem("Genre de film")
         for genre in GENRE_MAPPING:
-            genre_deroulant_box.addItem(f"{genre}")
+            self.genre_deroulant_box.addItem(f"{genre}")
 
+        search_button = QPushButton("🔍 Rechercher avec mes critères")
+        search_button.clicked.connect(self.on_search_clicked)
+        
         choice_layout = QVBoxLayout(choice_group)
-        # choice_layout.addWidget(period_label)
-        choice_layout.addWidget(note_deroulant_box)
-        choice_layout.addWidget(period_deroulant_box)
-        choice_layout.addWidget(genre_deroulant_box)
+       
+        choice_layout.addWidget(self.note_deroulant_box)
+        choice_layout.addWidget(self.period_deroulant_box)
+        choice_layout.addWidget(self.genre_deroulant_box)
+        choice_layout.addWidget(search_button)
 
         return choice_group
+
+
+
+    def on_search_clicked(self):
+
+        select_note= self.note_deroulant_box.currentText()
+        select_period = self.period_deroulant_box.currentText()
+        select_genre = self.genre_deroulant_box.currentText()
+
+        sortie = self.recommender.get_recommendations("particulier",select_note,select_period,select_genre)
+        print(sortie[:2])
+
 
 
 if __name__ == "__main__":
