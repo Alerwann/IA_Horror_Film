@@ -162,13 +162,23 @@ class HorrorRecommender:
                 "certification": "R"
                 }
 
-    def creat_user_profil_particulier(self, rating_wish, periode_wish,sous_genre_wish ):
+    def creat_user_profil_(self, rating_wish=None, periode_wish= None,sous_genre_wish= None ):
 
         """"""
-        print('period wish dabs creat particulier',periode_wish)
-        start,end = HORROR_ERAS[periode_wish]
+        if periode_wish == None:
+            periode = self.analyze_best_periode()[0][0]
+        else :
+            periode =periode_wish
+
+        start,end = HORROR_ERAS[periode]
         realisateur = self.analyze_best_realisateur()[0][0]
-        genre = GENRE_MAPPING[sous_genre_wish]
+
+        if sous_genre_wish == None:
+            genre_want = self.analyze_best_sous_genre()[0][0]
+        else :
+            genre_want= sous_genre_wish
+
+        genre = GENRE_MAPPING[genre_want]
 
         return {
                 "start_year": start,
@@ -180,12 +190,11 @@ class HorrorRecommender:
                 "certification": "R"
                 }
 
-    def build_tmdb_query(self,type_profil = 'default',rating_wish=None, periode_wish=None,sous_genre_wish =None):
+    def build_tmdb_query(self,rating_wish=None, periode_wish=None,sous_genre_wish =None):
 
-        if type_profil == "particulier": 
-            profile = self.creat_user_profil_particulier(rating_wish,periode_wish,sous_genre_wish)
-        else : 
-            profile = self.creat_user_profil_default()
+        
+        profile = self.creat_user_profil_(rating_wish,periode_wish,sous_genre_wish)
+       
 
         params = {
             "api_key": "TON_API_KEY",
@@ -202,13 +211,12 @@ class HorrorRecommender:
 
     def get_recommendations(
         self,
-        type_profil="default",
         rating_wish=None,
         periode_wish=None,
         sous_genre_wish=None,
     ):
         """Fait l'appel TMDB et retourne les films recommandés"""
-        params = self.build_tmdb_query(type_profil,rating_wish, periode_wish,sous_genre_wish)
+        params = self.build_tmdb_query(rating_wish, periode_wish,sous_genre_wish)
 
         # Remplace "TON_API_KEY" par ta vraie clé
         params["api_key"] = os.getenv("API_KEY")
