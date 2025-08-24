@@ -17,19 +17,28 @@ HORROR_ERAS = {
     "moderne": (2000, 2015),
     "contemporain": (2016, 2030),
 }
+# ===GENRE MAPPING===
 
-# === COLONNES ATTENDUES ===
+GENRE_MAPPING = {
+    "psychologique": [27, 53, 9648],  # Horror + Thriller + Mystery
+    "surnaturel": [27, 14],  # Horror + Fantasy
+    "horror pur": [27],  # Pure Horror
+    "fantaisie": [27, 14],  # Horror + Fantasy
+}
+
+
+# # === COLONNES ATTENDUES ===
 
 COLONNES = {"Titre", "ANNÉE", "Réalisateur", "Sous_genre", "note sur 10"}
 
-# === POIDS D'IMPORTANCE ===
+# # === POIDS D'IMPORTANCE ===
 
-TRES_IMPORTANT = 4
-IMPORTANT = 3
-PAS_IMPORTANT = 2
-NEGLIGEABLE = 0
+# TRES_IMPORTANT = 4
+# IMPORTANT = 3
+# PAS_IMPORTANT = 2
+# NEGLIGEABLE = 0
 
-POIDS_SOUS_GENRE = IMPORTANT
-POIDS_NOTE = TRES_IMPORTANT
-POIDS_DATE = NEGLIGEABLE
-POIDS_REALISATEUR = PAS_IMPORTANT
+# POIDS_SOUS_GENRE = IMPORTANT
+# POIDS_NOTE = TRES_IMPORTANT
+# POIDS_DATE = NEGLIGEABLE
+# POIDS_REALISATEUR = PAS_IMPORTANT
