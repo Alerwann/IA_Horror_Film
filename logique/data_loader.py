@@ -3,10 +3,11 @@ import sys
 import csv
 from pathlib import Path
 from typing import List, Optional
+from pathlib import Path
 
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from config.settings import CSV_PATH, COLONNES
+from config.settings import COLONNES
 from logique.horror_movie import HorrorMovie
 from logique.utils import verif_var_int, verif_order_int, str_strip_lower
 
@@ -17,9 +18,18 @@ class DataLoader:
 
     def __init__(self):
         """Initialisation des variables necessaires pour la classe"""
-        self.csv_path = CSV_PATH
+        
         self.movies = []
         self.is_loaded = False
+
+        if getattr(sys, "frozen", False):
+            # Mode PyInstaller
+            self.csv_path = Path(sys._MEIPASS) / "data" / "My_horror_film.csv" # type: ignore
+        else:
+            # Mode développement
+            self.csv_path= Path(__file__).parent.parent / "data" / "My_horror_film.csv"
+
+    
 
     def load_movies(self):
         """
@@ -36,10 +46,10 @@ class DataLoader:
         """
         movies = []
 
-        if not Path(CSV_PATH).exists():
-            raise FileNotFoundError(f"Le fichier CSV est introuvable : {CSV_PATH}")
+        if not Path(self.csv_path).exists():
+            raise FileNotFoundError(f"Le fichier CSV est introuvable : {self.csv_path}")
 
-        with open(CSV_PATH, newline="", encoding="utf-8") as csvfile:
+        with open(self.csv_path, newline="", encoding="utf-8") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=";")
             for row in reader:
                 movies.append(
@@ -152,7 +162,7 @@ class DataLoader:
         """Fonction permettant de retourner une liste des sous-genre"""
         all_ssgenre = self.get_all_informations('sous_genre')
         return all_ssgenre
-    
+
     # === SEARCH METHODS - SINGLE PARAMETER ===
 
     def get_movie_by_realisateur(self, real):

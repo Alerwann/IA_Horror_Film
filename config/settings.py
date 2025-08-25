@@ -1,5 +1,8 @@
+import sys
+from pathlib import Path
+
 # === CHEMIN DES FICHIERS ET DOSSIERS ===
-CSV_PATH = "data/My_horror_film.csv"
+
 
 # === SEUIL DES NOTES ===
 NOTE_ERAS={
@@ -31,14 +34,3 @@ GENRE_MAPPING = {
 
 COLONNES = {"Titre", "Année", "Réalisateur", "Sous_genre", "Note sur 10"}
 
-# # === POIDS D'IMPORTANCE ===
-
-# TRES_IMPORTANT = 4
-# IMPORTANT = 3
-# PAS_IMPORTANT = 2
-# NEGLIGEABLE = 0
-
-# POIDS_SOUS_GENRE = IMPORTANT
-# POIDS_NOTE = TRES_IMPORTANT
-# POIDS_DATE = NEGLIGEABLE
-# POIDS_REALISATEUR = PAS_IMPORTANT

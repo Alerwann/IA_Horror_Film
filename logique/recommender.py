@@ -1,13 +1,17 @@
 import sys
 import os
 import requests
+from pathlib import Path
 from dotenv import load_dotenv
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from logique.analyzer import HorrorAnalyser
 from config.settings import  HORROR_ERAS, GENRE_MAPPING
 
-load_dotenv()
+if getattr(sys, "frozen", False):
+    load_dotenv(Path(sys._MEIPASS) / ".env") # pyright: ignore[reportAttributeAccessIssue]
+else:
+    load_dotenv()
 
 
 class HorrorRecommender:
