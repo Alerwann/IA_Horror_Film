@@ -1,0 +1,54 @@
+RECO_DATA_DEV = [{'adult': False, 'backdrop_path': '/ag7zRu156LyzkoytjTfLgOwmVOt.jpg', 'genre_ids': [27, 9648, 28, 53, 18, 14], 'id': 1253327, 'original_language': 'en', 'original_title': 'IMMORTAL HEART', 'overview': 'Smith Hertz, a seemingly ordinary man is hunted down by a group of Mercenaries, and their mysterious leader Thanatos, who may have a connection to his haunted past, and the strange curse that inhabits both of them.', 'popularity': 0.1289, 'poster_path': '/lZrlt0K7SJ2TsCRDRsenrdBsfET.jpg', 'release_date': '2023-11-29', 'title': 'IMMORTAL HEART', 'video': False, 'vote_average': 10.0, 'vote_count': 2}, {'adult': False, 'backdrop_path': None, 'genre_ids': [18, 14, 53, 27], 'id': 844059, 'original_language': 'en', 'original_title': 'Haunted 5: Phantoms', 'overview': 'A private investigator RETURNS to London. Andrew Robinson and his team investigate a London Pub that has Poltergeist activity. They encounter paranormal events, ghosts and phantoms who will make their investigation go all the way to hell.', 'popularity': 0.3208, 'poster_path': '/16kXIdVyqGBF0WViQlxm24faYUv.jpg', 'release_date': '2020-12-22', 'title': 'Haunted 5: Phantoms', 'video': False, 'vote_average': 10.0, 'vote_count': 2}, {'adult': False, 'backdrop_path': '/3t4eSCnB9MMBqZuj70pp3Fmltd2.jpg', 'genre_ids': [18, 27, 14], 'id': 818878, 'original_language': 'pt', 'original_title': 'Vanitas', 'overview': '"Vanity of vanities, everything is vanity" says the bible. The word flows from the tongue naming the pleasure of earthly life and judging it as beautiful, but shallow and useless; vanity is a deadly sin. A female sin. The man painted the woman, put a mirror in his hands and called it vanity. The woman in representation admires herself, but the one who really admires her body is the artist. Whose vanity? In VANITAS, we re-divide the woman in our bodies, showing the depth of what is palpable. If the Father\'s temple hides after death, clean and perfect, we reject them. We welcome Mother Nature in us, life-death in a perpetual sacred cycle, also honoring her dark face. You may wish to reach heaven, but it is on earth that your knees fall.', 'popularity': 0.0416, 'poster_path': '/zmcKQKIIPj2bIQAiIOCS9sPxPMI.jpg', 'release_date': '2021-04-15', 'title': 'Vanitas', 'video': False, 'vote_average': 10.0, 'vote_count': 1}, {'adult': False, 'backdrop_path': '/blUWo4EpQEaHChEKNlxeOVwrAhA.jpg', 'genre_ids': [16, 14, 9648, 27], 'id': 1322218, 'original_language': 'ja', 'original_title': '劇場版モノノ怪 第二章 火鼠', 'overview': 'The Medicine Seller returns as the Edo harem faces a new crisis, with family feuds, inner turmoil and fiery envy igniting the birth of a raging spirit.', 'popularity': 10.631, 'poster_path': '/tPExtAM958Gx07itJ7nWqSddBQ9.jpg', 'release_date': '2025-03-14', 'title': 'Mononoke the Movie: Chapter II - The Ashes of Rage', 'video': False, 'vote_average': 7.8, 'vote_count': 13}, {'adult': False, 'backdrop_path': '/dPPjBf74W1j8va6KvDGePaJcqm7.jpg', 'genre_ids': [14, 16, 27, 28], 'id': 539517, 'original_language': 'en', 'original_title': 'Constantine: City of Demons - The Movie', 'overview': 'A decade after a tragic mistake, family man Chas Chandler and occult detective John Constantine set out to cure his daughter Trish from a mysterious supernatural coma.', 'popularity': 2.567, 'poster_path': '/tZIMe2pYug1cS9e7AZnd1bTTidM.jpg', 'release_date': '2018-10-04', 'title': 'Constantine: City of Demons - The Movie', 'video': False, 'vote_average': 7.696, 'vote_count': 625}, {'adult': False, 'backdrop_path': '/rbUPJoJJquPbX1AiV6GzOqcmJME.jpg', 'genre_ids': [28, 16, 14, 27, 10752], 'id': 587092, 'original_language': 'es', 'original_title': 'Unicorn Wars', 'overview': 'An army of bear cubs train and indoctrinate young recruits for the war against the unicorns, which threatens the safety of the cubs. Brothers Bluey and Tubby, along with a group of inexperienced cadets, are sent on a dangerous mission to save the Magic Forest, where the unicorns live, and start a terrible battle.', 'popularity': 1.4415, 'poster_path': '/kEEFo2CpBP1m7zjZzIHG0P6v6ma.jpg', 'release_date': '2022-10-21', 'title': 'Unicorn Wars', 'video': False, 'vote_average': 7.568, 'vote_count': 190}, {'adult': False, 'backdrop_path': '/VmGW4KFH975SicUzF4vwoHhSov.jpg', 'genre_ids': [16, 28, 12, 14, 27, 878], 'id': 408220, 'original_language': 'en', 'original_title': 'Justice League Dark', 'overview': "When innocent civilians begin committing unthinkable crimes across Metropolis, Gotham City and beyond, Batman must call upon mystical counterparts to eradicate this demonic threat to the planet; enter Justice League Dark. This team of Dark Arts specialists must unravel the mystery of Earth's supernatural plague and contend with the rising, powerful villainous forces behind the siege—before it's too late for all of mankind.", 'popularity': 2.5576, 'poster_path': '/gWcTaDFXDrOAPfVzfBFz0Aya5BE.jpg', 'release_date': '2017-01-24', 'title': 'Justice League Dark', 'video': False, 'vote_average': 7.297, 'vote_count': 1091}, {'adult': False, 'backdrop_path': '/gKk8Bg4qpHfniAJC3phzCZpkaIg.jpg', 'genre_ids': [27, 14], 'id': 501170, 'original_language': 'en', 'original_title': 'Doctor Sleep', 'overview': 'Still scarred by the trauma he endured as a child at the Overlook Hotel, Dan Torrance faces the ghosts of the past when he meets Abra, a courageous teen who desperately needs his help -- and who possesses a powerful extrasensory ability called the "shine".', 'popularity': 4.133, 'poster_path': '/p69QzIBbN06aTYqRRiCOY1emNBh.jpg', 'release_date': '2019-10-30', 'title': 'Doctor Sleep', 'video': False, 'vote_average': 7.144, 'vote_count': 4620}, {'adult': False, 'backdrop_path': '/Ag5ENQDjKhd7BcyF91jTpIiPXi6.jpg', 'genre_ids': [27, 14], 'id': 1120713, 'original_language': 'en', 'original_title': 'Stalker', 'overview': 'A young man must fight for his life against a shape shifting stalker.', 'popularity': 0.217, 'poster_path': '/34Q9lV8gKlZlZt4TWtWocR2L4wM.jpg', 'release_date': '2019-10-24', 'title': 'Stalker', 'video': False, 'vote_average': 7.111, 'vote_count': 9}, {'adult': False, 'backdrop_path': '/b1L7qevxiVpkVFq4dmdQPGFPWH0.jpg', 'genre_ids': [27, 80, 18, 14], 'id': 836225, 'original_language': 'en', 'original_title': 'The Exorcism of God', 'overview': 'An American priest working in Mexico is considered a saint by many local parishioners. However, due to a botched exorcism, he carries a secret that’s eating him alive until he gets an opportunity to face his demon one final time.', 'popularity': 4.0567, 'poster_path': '/hangTmbxpSV4gpHG7MgSlCWSSFa.jpg', 'release_date': '2022-03-11', 'title': 'The Exorcism of God', 'video': False, 'vote_average': 7.087, 'vote_count': 1113}, {'adult': False, 'backdrop_path': '/1yEm9t2uz32m8X4Lkd1e12KoVba.jpg', 'genre_ids': [27, 14, 36, 53], 'id': 769616, 'original_language': 'it', 'original_title': 'Vork and The Beast', 'overview': 'Three stories intertwine in a realm haunted by a bloodthirsty Beast. The lord of the castle must think about the survival of his people - decimated by the monster - when his daughter is infected with a mysterious disease. In the woods, two brothers share a dark secret, and the time of truth has finally come. A mysterious warrior from afar is on a mission, he is looking for the Beast.', 'popularity': 0.1475, 'poster_path': '/ndDaZpj8oFw0C1LcnX6FAt8JvdI.jpg', 'release_date': '2020-10-29', 'title': 'Vork and The Beast', 'video': False, 'vote_average': 7.0, 'vote_count': 1}]
+
+RECO_DATA_PROD = None
+
+
+HORROR_APP_STYLES = """
+QMainWindow {
+    background-color: #7F00FF;
+}
+
+QGroupBox {
+    font-size: 20px; 
+    background-color: #9683EC;
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-top :5px
+    
+    }
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    
+    background-color : transparent;
+    
+}
+QLabel {
+    font-size :20px;
+    padding :10px;
+    color : black;
+    font-weight: bold;
+    }
+QComboBox {
+   
+    padding: 8px 12px;
+    font-size: 14px;
+    color : black
+   
+}
+
+QComboBox QAbstractItemView {
+    max-height: 300px;  /* hauteur max de la liste */
+    min-width: 100px;   /* largeur de la liste */
+    background-color :   #9683EC; 
+    color : black
+}
+
+ QPushButton {
+    background-color : #7F00FF;
+    color : Black;
+    border-radius : 10px;
+    
+     }
+"""
