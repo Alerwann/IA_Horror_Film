@@ -9,7 +9,6 @@ from PySide6.QtWidgets import (
     QWidget,
     QLabel,
     QPushButton,
-    QTextEdit,
     QGroupBox,
     QComboBox,
     
@@ -18,18 +17,20 @@ from PySide6.QtCore import Qt
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from logique.recommender import HorrorRecommender
-from config.dev_gui_settings import RECO_DATA_DEV, RECO_DATA_PROD, HORROR_APP_STYLES
-from config.settings import  HORROR_ERAS, GENRE_MAPPING
+from config.dev_gui_settings import  RECO_DATA_PROD, HORROR_APP_STYLES
+from config.settings import   GENRE_MAPPING
 
 
 class HorrorApp(QMainWindow):
     def __init__(self):
+        """ Initialisation des données"""
         super().__init__()
         self.recommender = HorrorRecommender()
         self._reco_data_dev = RECO_DATA_PROD
         self.setup_ui()
 
     def setup_ui(self):
+        """ Création de la fenetre principal et ajout des widgets"""
         self.setWindowTitle("🎬 Recommandation de film d'horreur")
         self.setGeometry(200, 200, 900, 800)
 
@@ -45,17 +46,18 @@ class HorrorApp(QMainWindow):
 
         profile_section = self.create_profile_section()
         layout.addWidget(profile_section)
-        profile_section.setFixedHeight(100)
+        profile_section.setFixedHeight(160)
 
         self.reco_section = self.create_recommendation_section()
         layout.addWidget(self.reco_section)
 
         choice_section = self.create_choice_section()
         layout.addWidget(choice_section)
-        choice_section.setFixedHeight(300)
+        choice_section.setFixedHeight(200)
     # === Gestion de la section profil ======
 
     def create_profile_section(self ):
+        """ A l'aide des donnéee du profil affiche le sous-genre et la période préférée"""
         profile_data = self.get_profile_data()
         # QGroupBox = boîte avec titre et bordure
         profile_group = QGroupBox("👨‍💻 Ton Profil 👩‍💻")
@@ -65,15 +67,17 @@ class HorrorApp(QMainWindow):
 
         # Ajouter les labels avec tes données
         genre_label = QLabel(
-            f"🎭 Genre préféré: {profile_data['genre']} 📅 Période: {profile_data['periode']}"       )
+            f"🎭 Genre préféré: {profile_data['genre']} " )
+        periode_label = QLabel(f"📅 Période: {profile_data['periode']}")
 
         # Ajouter au layout
         profile_layout.addWidget(genre_label)
+        profile_layout.addWidget(periode_label)
 
         return profile_group
 
     def get_profile_data(self):
-        # Utiliser ton recommender existant !
+        """ Récupeère le profil de l'utilisateur retourne le genre et la période préférée"""
 
         profile = self.recommender.creat_user_profil_(
             rating_wish=None, periode_wish=None, sous_genre_wish=None
@@ -92,6 +96,7 @@ class HorrorApp(QMainWindow):
     def create_recommendation_section(
         self, rating_wish=None, periode_wish=None, sous_genre_wish=None
     ):
+        """ Affiche les 5 meilleurs recommandations selon le profil choisi"""
 
         reco_data = self.get_reco_data(rating_wish=None, periode_wish=None, sous_genre_wish=None)
 
@@ -108,13 +113,27 @@ class HorrorApp(QMainWindow):
         return reco_group
 
     def get_reco_data(self, rating_wish=None, periode_wish=None, sous_genre_wish=None):
+        """
+        Récupère les recommandations de films selon les critères spécifiés.
+
+        Args:
+            rating_wish (float, optional): Note minimum souhaitée
+            periode_wish (str, optional): Période historique souhaitée
+            sous_genre_wish (str, optional): Sous-genre souhaité
+
+        Returns:
+            list: Liste des films recommandés
+        """
 
         self._reco_data_dev = self.recommender.get_recommendations(rating_wish,periode_wish,sous_genre_wish)
 
         return self._reco_data_dev
 
     def create_choice_section(self):
-
+        """
+        Affichiche 3 menu déroulant (notes possibles, genre, période) et un bouton de validation
+        Une fois validé un nouveau profil est créé.
+        """
         choice_group = QGroupBox("🧐 Tu veux d'autres choix? 🧐")
         choice_layout = QVBoxLayout(choice_group, )
         combo_layout = QHBoxLayout()
@@ -159,7 +178,10 @@ class HorrorApp(QMainWindow):
         return choice_group
 
     def on_search_clicked(self):
-
+        """
+        Crée le profil en fonction des choix des menu déroulant
+        Note: si le menu est sur la valeur par défaut renvoie None
+        """
         select_note= self.note_deroulant_box.currentText()
         select_period = self.period_deroulant_box.currentText()
         select_genre = self.genre_deroulant_box.currentText()
