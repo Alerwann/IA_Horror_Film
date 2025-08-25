@@ -79,10 +79,7 @@ class HorrorApp(QMainWindow):
     def get_profile_data(self):
         """ Récupeère le profil de l'utilisateur retourne le genre et la période préférée"""
 
-        profile = self.recommender.creat_user_profil_(
-            rating_wish=None, periode_wish=None, sous_genre_wish=None
-        )
-        print(profile)
+        
 
         genre_info = self.recommender.analyze_best_sous_genre()[0]
         periode_info = self.recommender.analyze_best_periode()[0]
