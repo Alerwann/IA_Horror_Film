@@ -17,7 +17,7 @@ from PySide6.QtCore import Qt
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from logique.recommender import HorrorRecommender
-from config.dev_gui_settings import  RECO_DATA_PROD, HORROR_APP_STYLES
+from config.gui_settings import  RECO_DATA_PROD, HORROR_APP_STYLES
 from config.settings import   GENRE_MAPPING
 
 
